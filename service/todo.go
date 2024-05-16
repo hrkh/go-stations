@@ -52,9 +52,14 @@ func (s *TODOService) CreateTODO(ctx context.Context, subject, description strin
 // ReadTODO reads TODOs on DB.
 func (s *TODOService) ReadTODO(ctx context.Context, prevID, size int64) ([]*model.TODO, error) {
 	const (
-		read       = `SELECT id, subject, description, created_at, updated_at FROM todos ORDER BY id DESC LIMIT ?`
-		readWithID = `SELECT id, subject, description, created_at, updated_at FROM todos WHERE id < ? ORDER BY id DESC LIMIT ?`
+		read        = `SELECT id, subject, description, created_at, updated_at FROM todos ORDER BY id DESC LIMIT ?`
+		readWithID  = `SELECT id, subject, description, created_at, updated_at FROM todos WHERE id < ? ORDER BY id DESC LIMIT ?`
+		defaultSize = 5
 	)
+
+	if size == 0 {
+		size = defaultSize
+	}
 
 	var rows *sql.Rows
 	if prevID == 0 {
