@@ -45,6 +45,7 @@ func (h *TODOHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		if err := json.NewEncoder(w).Encode(res); err != nil {
 			panic(err)
 		}
+
 	case "POST":
 		req := &model.CreateTODORequest{}
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
